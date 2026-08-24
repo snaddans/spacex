@@ -101,5 +101,8 @@ def predict_landing(n_clicks, payload, orbit, site):
     except Exception as e:
         return f"Error processing input: {e}"
 
+# Expose the Flask server for gunicorn
+server = app.server
+
 if __name__ == '__main__':
     app.run(debug=True)
