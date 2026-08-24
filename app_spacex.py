@@ -4,10 +4,12 @@ import pandas as pd
 import plotly.express as px
 import joblib
 
+import os
+
 print("Loading SpaceX model package...")
 
-# Exact absolute path to your model file
-load_path = r"C:\Users\shash_8gna92j\OneDrive\Desktop\project\resume pro\spacex\spacex_model.joblib"
+# Use absolute path resolved dynamically for deployment compatibility
+load_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "spacex_model.joblib")
 
 try:
     artifacts = joblib.load(load_path)
@@ -49,8 +51,8 @@ app.layout = html.Div([
             html.Div(style={'padding': '20px'}, children=[
                 html.H3("Enter Mission Parameters:"),
                 
-                html.Label("Payload Mass (kg):"),
-                dcc.Input(id='in-payload', type='number', value=5000, style={'margin': '10px'}),
+                html.Label("Payload Mass (kg) (0-25000):"),
+                dcc.Input(id='in-payload', type='number', value=5000, min=0, max=25000, style={'margin': '10px'}),
                 
                 html.Label("Orbit:"),
                 dcc.Dropdown(
@@ -81,6 +83,9 @@ app.layout = html.Div([
 def predict_landing(n_clicks, payload, orbit, site):
     if n_clicks == 0 or not orbit or not site:
         return ""
+    
+    if payload is None or payload < 0 or payload > 25000:
+        return "⚠️ Prediction can't be determined (Payload must be between 0 and 25,000 kg)"
     
     try:
         orbit_encoded = label_encoders['Orbit'].transform([orbit])[0]

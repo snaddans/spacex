@@ -9,7 +9,7 @@ This project is a Data Science and Machine Learning application that predicts wh
 - **Machine Learning Model**: Trains a Random Forest Classifier to predict the success of a booster landing. The trained model and label encoders are saved using `joblib`.
 - **Interactive Dashboard**: A Dash application (`app_spacex.py`) that includes:
   - **Launch Analytics**: Interactive visualizations showing landings by launch site, orbit, and payload mass vs landing success using Plotly.
-  - **Custom Prediction Tool**: Allows users to input custom mission parameters (Payload Mass, Orbit, Launch Site) to predict landing success in real-time.
+  - **Custom Prediction Tool**: Allows users to input custom mission parameters (Payload Mass constrained between 0 and 25,000 kg, Orbit, Launch Site) to predict landing success in real-time. Inputs outside this bracket will indicate that the prediction cannot be determined.
 
 ## Project Structure
 

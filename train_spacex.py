@@ -28,20 +28,9 @@ else:
     print(f"Failed to fetch Wikipedia page. Status code: {response.status_code}")
     flight_tables = []
 
-if not flight_tables:
-    print("Generating fallback dataset...")
-    df = pd.DataFrame({
-        'Flight No.': range(1, 101),
-        'Rocket': ['Falcon 9'] * 95 + ['Falcon Heavy'] * 5,
-        'Payload mass (kg)': np.random.randint(2000, 15000, 100),
-        'Orbit': np.random.choice(['LEO', 'GTO', 'ISS', 'PO'], 100),
-        'Launch site': np.random.choice(['CCSFS', 'KSC', 'VSFB'], 100),
-        'Booster landing': np.random.choice(['Success', 'Failure', 'No attempt'], 100)
-    })
-else:
-    df = pd.concat(flight_tables, ignore_index=True)
-    df = df.loc[:, ~df.columns.duplicated()]
-    print("✅ Wikipedia data successfully extracted!")
+df = pd.concat(flight_tables, ignore_index=True)
+df = df.loc[:, ~df.columns.duplicated()]
+print("✅ Wikipedia data successfully extracted!")
 
 print("2. Cleaning the Dataset...")
 df.columns = [col.strip() for col in df.columns]
@@ -141,7 +130,7 @@ model_save_path = r"C:\Users\shash_8gna92j\OneDrive\Desktop\project\resume pro\s
 
 if os.path.exists(model_save_path):
     os.remove(model_save_path)
-    print("🗑️ Deleted old corrupted model.")
+    print("🗑️ Deleted old model.")
 
 model_package = {
     'model': rf_model,
